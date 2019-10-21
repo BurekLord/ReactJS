@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classes from './main.module.css';
-import image from '../../assets/images/1.png'
+import image from '../../assets/images/1.png';
 
 class main extends Component {
 
@@ -16,8 +16,8 @@ class main extends Component {
 
     handleKeyDown = (event) => {
         if (event.key === 'Enter') {
+            this.setState({input: ''})
             // TODO
-            console.log('ENTER HIT')
         }
     }
 
