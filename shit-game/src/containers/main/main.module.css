@@ -3,22 +3,68 @@
     height: 100%;
     background-color: #000;
     color: #fff;
+    text-shadow: 1px 1px 2px pink;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;    
+    letter-spacing: .5rem;
 }
-.image {
+.content {
     width: 90%;
     display: flex;
     margin: auto;
+    flex-direction: column;
 }
+.content h1 {
+    font-size: 3rem;
+    margin-bottom: 7rem; 
+    margin-top: 5rem; 
+}
+.content div, span {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;    
+    letter-spacing: .5rem;
+}
+
+.content span {
+    font-style: italic;
+}
+
+.colorPurple {
+    color: purple;
+}
+
+.colorGreen {
+    color: greenyellow;
+}
+
+.colorGold {
+    color: gold;
+}
+
 .header {
-   
+   margin: 1rem
 }
 
 .text {
- 
+    letter-spacing: .2rem;
+    font-weight: 300;
 }
 
 .inputBox {
     display: flex;
+    margin-top: 2rem;
+}
+
+.center {
+    width: 90%;
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    margin-top: 2rem;
+}
+
+i {
+    margin: 0;
 }
 
 .input {
@@ -28,7 +74,13 @@
     background-color: transparent;
     color: #fff;
     font-family: ARCADECLASSIC;
+    letter-spacing: .2rem;
+    font-size: 1.5rem;
 }
 input:focus {
     outline: none;  
+}
+
+.noMargin {
+    margin: 0;
 }
