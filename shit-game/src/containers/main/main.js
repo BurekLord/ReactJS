@@ -8,64 +8,250 @@ class main extends Component {
 
     state = {
         currentImg: '',
-        text: 'dummy text',
+        text: '',
         input: '',
         gameStarted: false,
         end: false,
+        counter: 31,
+        interval: undefined,
         startImg: require('../../assets/images/1.jpg'), 
         pantsDownImg: require('../../assets/images/2.jpg'),
         shitInPantsImg: require('../../assets/images/3.jpg'), 
         successMessyImg: require('../../assets/images/4.jpg'), 
         successImg: require('../../assets/images/5.jpg'),
-        possibleAnswers: [
+        possibleFirstAnswers: [
+            'take pants off',
+            'take off pants',
+            'drop pants',
+            'pants off',
+            'get naked',
+            'pull off pants',
+            'pull pants off',
+        ],
+        pantsOffMessage: 'You pull your pants down...',
+        firstStepPassed: false,
+        secondStepPassed: false,
+        possibleEndAnswers: [
             'shit on the floor',
             'shit on floor',
             'shit', 
             'shit on the wall',
+            'poop on the floor',
+            'poop',
+            'poop on floor',
+            'crap',
+            'crap on the floor',
+            'crap on floor'
         ],
+        success: false,
         missAnswers: [
-            'look around', 
-            'go down the hall', 
-            'open door', 
-            'go to bathroom', 
-            'go to toilet',
-            'sit', 
-            'squat',
-            'lay',
+            {answer: 'look around', response: 'You look around and see a door, and a hallway. You want to burst!'}, 
+            {answer: 'go down the hall', response: 'You try to move, but you cant! Your gonna crap your pants!'}, 
+            {answer: 'open door', response: 'You try to open the door, but its sealed shut! You are gonna shit your pants!'}, 
+            {answer: 'open the door', response: 'You try to open the door, but its sealed shut! You are gonna shit your pants!'}, 
+            {answer: 'go to bathroom', response: 'Yea... You realy want to go to the bathroom.'}, 
+            {answer: 'go to the bathroom', response: 'Yea... You realy want to go to the bathroom.'}, 
+            {answer: 'go to toilet', response: 'You realy should...'}, 
+            {answer: 'go to the toilet', response: 'You realy should...'}, 
+            {answer: 'sit down', response: 'You are going to explode. You cant sit down.'}, 
+            {answer: 'sit', response: 'You are going to explode. You cant sit down.'}, 
+            {answer: 'squat', response: 'You are going to explode. You cant do a slav squat now.'}, 
+            {answer: 'lay', response: 'Why would you even try to lay down? You cant shit laying down!'}, 
+            {answer: 'lay down', response: 'Why would you even try to lay down? You cant shit laying down!'}, 
+           
+            {answer: 'look', response: 'You look around and see a door, and a hallway. You want to burst!'}, 
+            {answer: 'look at door', response: 'You take a look at the door. Its shut!'}, 
+            {answer: 'look at the door', response: 'You take a look at the door. Its shut!'}, 
+            {answer: 'go down the hallway', response: 'You try to move, but you cant! Your gonna crap your pants!'}, 
+            {answer: 'go to hallway', response: 'You wanna go, but you cant!'}, 
+            {answer: 'go to hall', response: 'You try to move, but you cant! Your gonna crap your pants!'}, 
+            {answer: 'go to door', response: 'Oh shiiit!'}, 
+            {answer: 'go to the door', response: 'The door is shut!'}, 
         ],
-        tryMessages: [''],
-        failMessage: 'you shat your pants'
+        failMessage: 'You shat your pants',
+        successMessage: 'You didnt shit your pants!'
+    }
+
+    componentDidUpdate() {
+        if (this.state.gameStarted && !this.state.interval) {
+            this.setState({interval: setInterval(()=> {
+                this.setState((previousState, props) => {return {counter: this.state.counter - 1}})
+
+                if (this.state.counter === Math.floor((Math.random() * 5) + 3)) {
+                    this.setState({text: 'OOOOHH shit, you are going to expload!!!'})
+                }
+                if (this.state.counter === Math.floor((Math.random() * 10) + 8)) {
+                    this.setState({text: 'You feal the preasure rising!!!'})
+                }
+                if (this.state.counter === Math.floor((Math.random() * 15) + 12)) {
+                    this.setState({text: 'Hurry Up! You realy dont want to shit your pants'})
+                }
+                console.log(this.state.counter)
+                if (this.state.counter === 0) {
+                    this.setState({success: false})
+                    this.setState({text: this.state.failMessage});
+                    this.setState({currentImg: this.state.shitInPantsImg});
+                    clearInterval(this.state.interval)
+                }
+            }, 1000)});
+        }
     }
 
     handleChange = (event) => {
         this.setState({input: event.target.value})
     } 
 
+    resetGame = () => {
+        this.setState({success: false})
+        this.setState({currentImg: this.state.startImg});
+        this.setState({gameStarted: false});
+        this.setState({firstStepPassed: false});
+        this.setState({secondStepPassed: false});
+        this.render();
+    }
+
+    endGame = () => {
+        this.setState({success: false})
+        this.setState({text: this.state.failMessage});
+        this.setState({currentImg: this.state.shitInPantsImg});
+        clearInterval(this.state.interval)
+    }
+
     handleKeyDown = (event) => {
+        let end = this.state.end;
+        let success = this.state.success;
+        let gameStarted = this.state.gameStarted;
         let input = this.state.input.toLowerCase()
         if (event.key === 'Escape') {
+            if (this.state.success) {
+                this.resetGame();
+            }
             this.setState({input: ''})
         }
+
         if (event.key === 'Enter') {
-            if (input !== 'start' || input !== 'scores') {
-                axios.post('https://shit-game.firebaseio.com/userInput.json', {answer: input})
-                .then(response => {
-                    console.log(response);
-                });
+            if (!success) {
+                if (input !== 'start' || input !== 'scores') {
+                    axios.post('https://shit-game.firebaseio.com/userInput.json', {answer: input})
+                    .then(response => {
+                        console.log(response);
+                    });
+                }
+            } else {
+                if (gameStarted) {
+                    this.resetGame();
+                }
             }
-            if (input === 'start') {
+
+            if (input === 'start' && !this.state.gameStarted) {
                 this.setState({gameStarted: true});
                 this.setState({currentImg: this.state.startImg});
+                this.setState({text: 'You want to take a shit.'});
             }
-            if (input === 'scores') {
+            if (input === 'scores' && !this.state.gameStarted) {
                 this.setState({text: 'Feature Still in development...'});
             }
+
+            if (this.state.gameStarted) {
+                // success
+                let firstAnswer = this.state.possibleFirstAnswers.indexOf(input);
+                let endAnswer = this.state.possibleEndAnswers.indexOf(input);
+
+                if (endAnswer) {
+                    this.endGame();
+                }
+
+                if (!this.state.firstStepPassed && firstAnswer !== -1) {
+                    this.setState({currentImg: this.state.pantsDownImg});
+                    this.setState({text: this.state.pantsOffMessage});
+                    this.setState({firstStepPassed: true});
+                }
+                if (this.state.firstStepPassed && endAnswer !== -1) {
+                    this.setState({success: true})
+                    let random = Math.floor((Math.random() * 1) + 1);
+                    this.setState({currentImg: random > 0 ? this.state.successImg : this.state.successMessyImg});
+                    this.setState({text: this.state.successMessage});
+                }
+
+                // miss
+                if (!this.state.firstStepPassed && !this.state.success) {
+                    console.log(this.state.end)
+                    switch(input) {
+                        case this.state.missAnswers[0].answer: 
+                                this.setState({text: this.state.missAnswers[0].response}); 
+                                break;   
+                        case this.state.missAnswers[1].answer: 
+                            this.setState({text: this.state.missAnswers[1].response}); 
+                            break;
+                        case this.state.missAnswers[2].answer: 
+                            this.setState({text: this.state.missAnswers[2].response}); 
+                            break;
+                        case this.state.missAnswers[3].answer: 
+                            this.setState({text: this.state.missAnswers[3].response}); 
+                            break;
+                        case this.state.missAnswers[4].answer: 
+                            this.setState({text: this.state.missAnswers[4].response}); 
+                            break;
+                        case this.state.missAnswers[5].answer: 
+                            this.setState({text: this.state.missAnswers[5].response}); 
+                            break;
+                        case this.state.missAnswers[6].answer: 
+                            this.setState({text: this.state.missAnswers[6].response}); 
+                            break;
+                        case this.state.missAnswers[7].answer: 
+                            this.setState({text: this.state.missAnswers[7].response}); 
+                            break;
+                        case this.state.missAnswers[8].answer: 
+                            this.setState({text: this.state.missAnswers[8].response}); 
+                            break;
+                        case this.state.missAnswers[9].answer: 
+                            this.setState({text: this.state.missAnswers[9].response}); 
+                            break;
+                        case this.state.missAnswers[10].answer: 
+                            this.setState({text: this.state.missAnswers[10].response}); 
+                            break;
+                        case this.state.missAnswers[11].answer: 
+                            this.setState({text: this.state.missAnswers[11].response}); 
+                            break;
+                        case this.state.missAnswers[12].answer: 
+                            this.setState({text: this.state.missAnswers[12].response});
+                            break;
+                        case this.state.missAnswers[13].answer: 
+                            this.setState({text: this.state.missAnswers[12].response});
+                            break;
+                        case this.state.missAnswers[14].answer: 
+                            this.setState({text: this.state.missAnswers[12].response});
+                            break;
+                        case this.state.missAnswers[15].answer: 
+                            this.setState({text: this.state.missAnswers[12].response});
+                            break;
+                        case this.state.missAnswers[16].answer: 
+                            this.setState({text: this.state.missAnswers[12].response});
+                            break;
+                        case this.state.missAnswers[17].answer: 
+                            this.setState({text: this.state.missAnswers[12].response});
+                            break;
+                        case this.state.missAnswers[18].answer: 
+                            this.setState({text: this.state.missAnswers[12].response});
+                            break;
+                        case this.state.missAnswers[19].answer: 
+                            this.setState({text: this.state.missAnswers[12].response});
+                            break;
+                        case this.state.missAnswers[20].answer: 
+                            this.setState({text: this.state.missAnswers[12].response});
+                            break;
+                        // default: this.setState({text: `You dont know how to ${input}...`});
+                    }
+                }
+            }
+
             // reset input
             this.setState({input: ''})
         }
     }
 
     render () {
+        let counter;
         let img = (
         <div className={classes.content}>
             <h1>Dont shit your pants !!!</h1>
@@ -76,11 +262,14 @@ class main extends Component {
         );
         if (this.state.gameStarted){
             img = <img className={classes.content} src={this.state.currentImg} alt="game progress depiction"/>
+            counter = (
+                <div>00 : {this.state.counter}</div>
+            )
         }
 
         return (
         <div className={classes.main}>
-            <header className={classes.header}>Shit Game</header>
+            <header className={classes.header}>Shit Game {counter}</header>
             {img}
             <div className={classes.center}>
                 <div className={classes.text}>{this.state.text}</div>
