@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import classes from './main.module.css';
 import axios from 'axios';
+import {Subject} from 'rxjs';
 
 class main extends Component {
 
     // const result = await axios.get('http://jsonplaceholder.typicode.com/posts');
 
     state = {
+        subject: new Subject(),
         currentImg: '',
         text: '',
         input: '',
         gameStarted: false,
-        end: false,
+        fail: false,
         counter: 31,
         interval: undefined,
         startImg: require('../../assets/images/1.jpg'), 
@@ -103,6 +105,7 @@ class main extends Component {
 
     resetGame = () => {
         this.setState({success: false})
+        this.setState({fail: false})
         this.setState({currentImg: this.state.startImg});
         this.setState({gameStarted: false});
         this.setState({firstStepPassed: false});
@@ -110,72 +113,111 @@ class main extends Component {
         this.render();
     }
 
-    endGame = () => {
-        this.setState({success: false})
-        this.setState({text: this.state.failMessage});
+    completeGame = () => {
+        // complete screen
+        // success image
+        let successImg = Math.floor((Math.random() * 1) + 1);
+        this.setState({currentImg: successImg > 0 ? this.state.successImg : this.state.successMessyImg});
+        // success message
+        this.setState({text: this.state.successMessage});
+        // stop interval
+        clearInterval(this.state.interval);
+        // success state true
+        this.setState({success: true});
+        this.setState({success: false});
+    }
+
+    failGame = () => {
+        // fail screen
+        // fail image
         this.setState({currentImg: this.state.shitInPantsImg});
-        clearInterval(this.state.interval)
+        // fail message
+        this.setState({text: this.state.failMessage})
+        // stop interval
+        clearInterval(this.state.interval);
+        // fail state true
+        this.setState({success: false});
+        this.setState({fail: true});
+    }
+
+    saveToBe = (input) => {
+        axios.post('https://shit-game.firebaseio.com/userInput.json', {answer: input})
+        .then(response => {
+            console.log(response);
+        });
+    }
+
+    startNewGame = () => {        
+        this.setState({fail: false});
+        this.setState({success: false});
+        this.setState({currentImg: this.state.startImg});
+        this.setState({text: 'You want to take a shit.'});
+        this.setState({gameStarted: true});
+        this.setState({firstStepPassed: false});
+        this.setState({secondStepPassed: false});
+        this.render();
+    }
+
+    goToMainScreen = () => {
+        this.setState({input: ''});
+        this.setState({text: ''});
+        this.setState({gameStarted: false})
+        this.setState({success: false})
+        this.setState({fail: false})
     }
 
     handleKeyDown = (event) => {
-        let end = this.state.end;
-        let success = this.state.success;
-        let gameStarted = this.state.gameStarted;
         let input = this.state.input.toLowerCase()
         if (event.key === 'Escape') {
-            if (this.state.success) {
+            if (this.state.success || this.state.fail) {
                 this.resetGame();
             }
-            this.setState({input: ''})
         }
 
         if (event.key === 'Enter') {
-            if (!success) {
-                if (input !== 'start' || input !== 'scores') {
-                    axios.post('https://shit-game.firebaseio.com/userInput.json', {answer: input})
-                    .then(response => {
-                        console.log(response);
-                    });
-                }
-            } else {
-                if (gameStarted) {
-                    this.resetGame();
-                }
+            // if game is successful or failed
+            if (this.state.success || this.state.fail) {
+                this.goToMainScreen();
+            }
+            // if not start or scores and game has started save it to the BE for later examination
+            if (input !== 'start' || input !== 'scores' && this.state.gameStarted) {
+                this.saveToBe();
             }
 
+            // start new game if input start and game not started already
             if (input === 'start' && !this.state.gameStarted) {
-                this.setState({gameStarted: true});
-                this.setState({currentImg: this.state.startImg});
-                this.setState({text: 'You want to take a shit.'});
+                this.startNewGame();
             }
+
+            // get scores in input is scores and game is not started
             if (input === 'scores' && !this.state.gameStarted) {
                 this.setState({text: 'Feature Still in development...'});
             }
 
+             // OVDE JE PROBLEM !!!!!!!!!!!!!!
+            // if game is started check input
             if (this.state.gameStarted) {
-                // success
-                let firstAnswer = this.state.possibleFirstAnswers.indexOf(input);
-                let endAnswer = this.state.possibleEndAnswers.indexOf(input);
-
-                if (endAnswer) {
-                    this.endGame();
+                // success conditions
+                if (!this.state.secondStepPassed && this.state.firstStepPassed) {
+                    this.setState({secondStepPassed: this.state.possibleEndAnswers.indexOf(input) !== -1 ? true : false});
+                }
+                if (!this.state.firstStepPassed) {
+                    this.setState({firstStepPassed: this.state.possibleFirstAnswers.indexOf(input) !== -1 ? true : false});
+                }
+                if (!this.state.secondStepPassed && this.state.secondStepPassed) {
+                    this.failGame();
+                }
+                // if end answer end game screen
+                if (this.state.secondStepPassed && this.state.secondStepPassed) {
+                    this.completeGame();
                 }
 
-                if (!this.state.firstStepPassed && firstAnswer !== -1) {
-                    this.setState({currentImg: this.state.pantsDownImg});
-                    this.setState({text: this.state.pantsOffMessage});
-                    this.setState({firstStepPassed: true});
-                }
-                if (this.state.firstStepPassed && endAnswer !== -1) {
-                    this.setState({success: true})
-                    let random = Math.floor((Math.random() * 1) + 1);
-                    this.setState({currentImg: random > 0 ? this.state.successImg : this.state.successMessyImg});
-                    this.setState({text: this.state.successMessage});
-                }
+                // if first step passed ////////////  Math.floor((Math.random() * 1) + 1);
+
+                // if both steps passed complete game
 
                 // miss
-                if (!this.state.firstStepPassed && !this.state.success) {
-                    console.log(this.state.end)
+                if (this.state.success) {
                     switch(input) {
                         case this.state.missAnswers[0].answer: 
                                 this.setState({text: this.state.missAnswers[0].response}); 
