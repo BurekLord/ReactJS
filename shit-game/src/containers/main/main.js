@@ -5,7 +5,10 @@ import {Subject} from 'rxjs';
 
 class main extends Component {
 
-    // const result = await axios.get('http://jsonplaceholder.typicode.com/posts');
+    constructor() {
+        super();
+        this.inputRef = React.createRef(); 
+    }
 
     state = {
         subject: new Subject(),
@@ -73,7 +76,6 @@ class main extends Component {
         failMessage: 'You shat your pants',
         successMessage: 'You didnt shit your pants!'
     }
-
     handleChange = (event) => {
         this.setState({input: event.target.value})
     } 
@@ -307,6 +309,10 @@ class main extends Component {
         }
     }
 
+    focusInput = () => {
+        this.inputRef.current.focus()
+    }
+
     render () {
         let counter;
         let img = (
@@ -331,8 +337,9 @@ class main extends Component {
             <div className={classes.center}>
                 <div className={classes.text}>{this.state.text}</div>
                 <div className={classes.inputBox}>
-                    <span className={classes.noMargin}><i className="fas fa-chevron-right"></i></span>
+                    <span onClick={this.focusInput} className={classes.noMargin}><img className={classes.svg} src={require('../../assets/images/chevron-right-solid.svg')} /></span>
                     <input 
+                        ref={this.inputRef}
                         type="text"
                         className={classes.input} 
                         value={this.state.input} 

@@ -1,5 +1,5 @@
 .main {
-    width: 80%;
+    width: 50%;
     height: 100%;
     background-color: #000;
     color: #fff;
@@ -83,4 +83,47 @@ input:focus {
 
 .noMargin {
     margin: 0;
+}
+
+.svg {
+    background-color: white;
+    width: 1.2rem;
+    /* animation: blink 2s;
+    -webkit-animation: blink 2s;
+    -moz-animation: blink 2s; */
+
+  
+    visibility: visible;
+    animation: blink 1s steps(5, start) infinite;
+    -webkit-animation: blink 1s steps(5, start) infinite;
+    -moz-animation: blink 1s steps(5, start) infinite;
+}
+
+@keyframes blink {
+    to {
+        visibility: hidden;
+      }
+  }
+
+  @-webkit-keyframes blink {
+    to {
+        visibility: hidden;
+      }
+  }
+
+  @-moz-keyframes blink {
+    to {
+        visibility: hidden;
+      }
+  }
+
+@media (max-width: 1400px) {
+    .main {
+        width: 60%;
+    }
+}
+@media (max-width: 1200px) {
+    .main {
+        width: 80%;
+    }
 }
