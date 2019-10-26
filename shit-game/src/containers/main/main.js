@@ -74,44 +74,9 @@ class main extends Component {
         successMessage: 'You didnt shit your pants!'
     }
 
-    componentDidUpdate() {
-        if (this.state.gameStarted && !this.state.interval) {
-            this.setState({interval: setInterval(()=> {
-                this.setState((previousState, props) => {return {counter: this.state.counter - 1}})
-
-                if (this.state.counter === Math.floor((Math.random() * 5) + 3)) {
-                    this.setState({text: 'OOOOHH shit, you are going to expload!!!'})
-                }
-                if (this.state.counter === Math.floor((Math.random() * 10) + 8)) {
-                    this.setState({text: 'You feal the preasure rising!!!'})
-                }
-                if (this.state.counter === Math.floor((Math.random() * 15) + 12)) {
-                    this.setState({text: 'Hurry Up! You realy dont want to shit your pants'})
-                }
-                console.log(this.state.counter)
-                if (this.state.counter === 0) {
-                    this.setState({success: false})
-                    this.setState({text: this.state.failMessage});
-                    this.setState({currentImg: this.state.shitInPantsImg});
-                    clearInterval(this.state.interval)
-                }
-            }, 1000)});
-        }
-    }
-
     handleChange = (event) => {
         this.setState({input: event.target.value})
     } 
-
-    resetGame = () => {
-        this.setState({success: false})
-        this.setState({fail: false})
-        this.setState({currentImg: this.state.startImg});
-        this.setState({gameStarted: false});
-        this.setState({firstStepPassed: false});
-        this.setState({secondStepPassed: false});
-        this.render();
-    }
 
     completeGame = () => {
         // complete screen
@@ -122,9 +87,10 @@ class main extends Component {
         this.setState({text: this.state.successMessage});
         // stop interval
         clearInterval(this.state.interval);
+        this.setState({interval: undefined});
         // success state true
         this.setState({success: true});
-        this.setState({success: false});
+        this.setState({fail: false});
     }
 
     failGame = () => {
@@ -135,6 +101,7 @@ class main extends Component {
         this.setState({text: this.state.failMessage})
         // stop interval
         clearInterval(this.state.interval);
+        this.setState({interval: undefined});
         // fail state true
         this.setState({success: false});
         this.setState({fail: true});
@@ -152,10 +119,35 @@ class main extends Component {
         this.setState({success: false});
         this.setState({currentImg: this.state.startImg});
         this.setState({text: 'You want to take a shit.'});
-        this.setState({gameStarted: true});
         this.setState({firstStepPassed: false});
         this.setState({secondStepPassed: false});
-        this.render();
+        this.setState({gameStarted: true}, () => {
+            if (this.state.gameStarted && !this.state.interval) {
+                this.setState({counter: 31}, () => {
+                    this.setState({interval: setInterval(()=> {
+                        this.setState((previousState, props) => {return {counter: this.state.counter - 1}})
+        
+                        if (this.state.counter === Math.floor((Math.random() * 5) + 3)) {
+                            this.setState({text: 'OOOOHH shit, you are going to expload!!!'})
+                        }
+                        if (this.state.counter === Math.floor((Math.random() * 10) + 8)) {
+                            this.setState({text: 'You feal the preasure rising!!!'})
+                        }
+                        if (this.state.counter === Math.floor((Math.random() * 15) + 12)) {
+                            this.setState({text: 'Hurry Up! You realy dont want to shit your pants'})
+                        }
+                        console.log(this.state.counter)
+                        if (this.state.counter === 0) {
+                            this.setState({success: false})
+                            this.setState({text: this.state.failMessage});
+                            this.setState({currentImg: this.state.shitInPantsImg});
+                            clearInterval(this.state.interval)
+                        }
+                    }, 1000)});
+                });
+            }
+            this.render();
+        });
     }
 
     goToMainScreen = () => {
@@ -166,16 +158,30 @@ class main extends Component {
         this.setState({fail: false})
     }
 
+    resetGame = () => {
+        this.setState({input: ''});
+        this.setState({text: ''});
+        this.setState({gameStarted: false})
+        this.setState({firstStepPassed: false});
+        this.setState({secondStepPassed: false});
+        this.setState({success: false});
+        this.setState({fail: false});
+        clearInterval(this.state.interval);
+        this.setState({interval: undefined});
+    }
+
     handleKeyDown = (event) => {
-        let input = this.state.input.toLowerCase()
+        let input = this.state.input.toLowerCase().trim();
         if (event.key === 'Escape') {
-            if (this.state.success || this.state.fail) {
+            if (this.state.gameStarted) {
                 this.resetGame();
+            }
+            if (this.state.success || this.state.fail) {
+                this.goToMainScreen();
             }
         }
 
         if (event.key === 'Enter') {
-            // if game is successful or failed
             if (this.state.success || this.state.fail) {
                 this.goToMainScreen();
             }
@@ -194,34 +200,39 @@ class main extends Component {
                 this.setState({text: 'Feature Still in development...'});
             }
 
-             // OVDE JE PROBLEM !!!!!!!!!!!!!!
             // if game is started check input
             if (this.state.gameStarted) {
-                // success conditions
-                if (!this.state.secondStepPassed && this.state.firstStepPassed) {
-                    this.setState({secondStepPassed: this.state.possibleEndAnswers.indexOf(input) !== -1 ? true : false});
+                if (!this.state.secondStepPassed) {
+                    this.setState({secondStepPassed: this.state.possibleEndAnswers.indexOf(input) !== -1 ? true : false}, () => {
+                        if (!this.state.firstStepPassed && this.state.secondStepPassed) {
+                            this.failGame();
+                        }
+                        if (this.state.firstStepPassed && this.state.secondStepPassed) {
+                            this.completeGame();
+                        }
+                    });
                 }
                 if (!this.state.firstStepPassed) {
-                    this.setState({firstStepPassed: this.state.possibleFirstAnswers.indexOf(input) !== -1 ? true : false});
+                    this.setState({firstStepPassed: this.state.possibleFirstAnswers.indexOf(input) !== -1 ? true : false}, () => {
+                        if (this.state.firstStepPassed) {
+                            this.setState({currentImg: this.state.pantsDownImg});
+                            this.setState({text: this.state.pantsOffMessage});
+                        }
+                        if (!this.state.firstStepPassed && this.state.secondStepPassed) {
+                            this.failGame();
+                        }
+                        if (this.state.firstStepPassed && this.state.secondStepPassed) {
+                            this.completeGame();
+                        }
+                    });
                 }
-                if (!this.state.secondStepPassed && this.state.secondStepPassed) {
-                    this.failGame();
-                }
-                // if end answer end game screen
-                if (this.state.secondStepPassed && this.state.secondStepPassed) {
-                    this.completeGame();
-                }
-
-                // if first step passed ////////////  Math.floor((Math.random() * 1) + 1);
-
-                // if both steps passed complete game
 
                 // miss
-                if (this.state.success) {
+                if (this.state.gameStarted && !this.state.secondStepPassed) {
                     switch(input) {
                         case this.state.missAnswers[0].answer: 
-                                this.setState({text: this.state.missAnswers[0].response}); 
-                                break;   
+                            this.setState({text: this.state.missAnswers[0].response}); 
+                            break;   
                         case this.state.missAnswers[1].answer: 
                             this.setState({text: this.state.missAnswers[1].response}); 
                             break;
@@ -282,7 +293,11 @@ class main extends Component {
                         case this.state.missAnswers[20].answer: 
                             this.setState({text: this.state.missAnswers[12].response});
                             break;
-                        // default: this.setState({text: `You dont know how to ${input}...`});
+                        default: {
+                            if (!this.firstStepPassed || !this.secondStepPassed) {
+                                this.setState({text: `You dont know how to ${input}...`});
+                            }
+                        }
                     }
                 }
             }
