@@ -7,6 +7,8 @@
     font-size: 1.5rem;
     margin-bottom: 2rem;    
     letter-spacing: .5rem;
+    display: flex;
+    flex-direction: column;
 }
 .content {
     width: 90%;
@@ -52,7 +54,8 @@
 
 .inputBox {
     display: flex;
-    margin-top: 2rem;
+    margin-top: 1rem;
+
 }
 
 .center {
@@ -60,7 +63,7 @@
     display: flex;
     margin: auto;
     flex-direction: column;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 i {
@@ -99,6 +102,22 @@ input:focus {
     -moz-animation: blink 1s steps(5, start) infinite;
 }
 
+footer {
+    font-size: 1rem;
+    margin: auto;
+    display: flex;
+    width: 90%;
+    flex-direction: column;
+}
+
+footer div {
+    margin-bottom: 2rem;
+}
+
+.helperCountDown {
+    visibility: hidden;
+}
+
 @keyframes blink {
     to {
         visibility: hidden;
@@ -126,4 +145,116 @@ input:focus {
     .main {
         width: 80%;
     }
+}
+
+a {
+    text-decoration: none;
+}
+
+@media (max-width: 501px) {
+    .main {
+        width: 100%;
+        font-size: 1rem;
+        letter-spacing: .2rem;
+    }
+
+    .content h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem; 
+        margin-top: 0; 
+    }
+
+    .content div, span {
+        font-size: 1rem;
+        margin-bottom: 1rem;    
+        letter-spacing: .5rem;
+    }
+
+    .input {
+        font-size: 1rem;
+    }
+
+    .svg {
+        width: .8rem;
+    }
+    footer {
+        font-size: .7rem;
+        margin: 0 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    footer div {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-height: 400px) {
+
+    header {
+        display: none;
+    }
+
+    img {
+        width: 75%;
+        display: flex;
+        margin: auto;
+    }
+
+  .main,.center {
+    margin-bottom: 3rem;
+  }
+  .main .content div {
+    display: none;
+  }
+  input {
+    font-size: 2rem;  
+  }
+  .helperCountDown {
+        visibility: visible;
+         right: 4rem;
+        position: absolute;
+        bottom: 6rem;
+  }
+
+  .btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: rgba(255,255,255, .2);
+    padding: .7rem;
+    color: wheat;
+    border-radius: 6px;
+  }
+
+  .btn span {
+    position: absolute;
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    letter-spacing: initial;
+  }
+}
+
+
+@media (max-height: 300px) {
+
+    img {
+        width: 60%;
+    }
+
+  .helperCountDown {
+         right: 4rem;
+        bottom: 5rem;
+  }
+
+  .btn {
+
+    right: 4rem;
+    bottom: 5rem;
+    padding: .4rem;
+  }
 }

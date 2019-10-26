@@ -73,7 +73,7 @@ class main extends Component {
             {answer: 'go to door', response: 'Oh shiiit!'}, 
             {answer: 'go to the door', response: 'The door is shut!'}, 
         ],
-        failMessage: 'You shat your pants',
+        failMessage: 'You shat your pants... You are such a looser...',
         successMessage: 'You didnt shit your pants!'
     }
     handleChange = (event) => {
@@ -138,12 +138,13 @@ class main extends Component {
                         if (this.state.counter === Math.floor((Math.random() * 15) + 12)) {
                             this.setState({text: 'Hurry Up! You realy dont want to shit your pants'})
                         }
-                        console.log(this.state.counter)
                         if (this.state.counter === 0) {
-                            this.setState({success: false})
-                            this.setState({text: this.state.failMessage});
-                            this.setState({currentImg: this.state.shitInPantsImg});
-                            clearInterval(this.state.interval)
+                            if (this.state.firstStepPassed) {
+                                this.completeGame();
+                                this.setState({text: 'You cant hold it any more, so you just take a dump on the floor. But since you already took your pants off, its OK !'});
+                            } else {
+                                this.failGame();
+                            }
                         }
                     }, 1000)});
                 });
@@ -317,23 +318,41 @@ class main extends Component {
         let counter;
         let img = (
         <div className={classes.content}>
-            <h1>Dont shit your pants !!!</h1>
+            <h1>Don't Shit Your Pants !!!</h1>
             <div>In  this  game  the  goal  is  for  you  not  to  shit  your  pants...</div>
-            <div>To  start  a  <span className={classes.colorPurple}>new  game</span>,  type  <span className={classes.colorGreen}>start</span>  in  the  console  and  pres  <span className={classes.colorGold}>'Enter'</span></div>
-            <div>To  see  <span className={classes.colorPurple}>scores</span>,  type  <span className={classes.colorGreen}>scores</span>  in  the  console  and  pres  <span className={classes.colorGold}>'Enter'</span></div>
+            <div>To  start  a  <span className={classes.colorPurple}>new  game</span>,  type  <span className={classes.colorGreen}>start</span>  in  the  console  and  press  <span className={classes.colorGold}>'Enter'</span></div>
+            <div>To  see  the  <span className={classes.colorPurple}>scores</span>,  type  <span className={classes.colorGreen}>scores</span>  in  the  console  and  press  <span className={classes.colorGold}>'Enter'</span></div>
         </div>
         );
         if (this.state.gameStarted){
-            img = <img className={classes.content} src={this.state.currentImg} alt="game progress depiction"/>
+            img = <img className={[classes.content, classes.image]} src={this.state.currentImg} alt="game progress depiction"/>
             counter = (
-                <div>00 : {this.state.counter}</div>
+                <div>00 : {this.state.counter < 10 ? '0' : ''}{this.state.counter}</div>
             )
+        }
+
+        let helperCountDown;
+        if (this.state.gameStarted) {
+            helperCountDown = (<div className={classes.helperCountDown}>00 : {this.state.counter < 10 ? '0' : ''}{this.state.counter}</div>)
+        } else {
+            helperCountDown = null;
+        }
+
+        let resetButton
+        if (this.state.success || this.state.fail) {
+            resetButton = (<button className={ classes.btn} onClick={this.resetGame}><span>...Reset game</span></button>)
+        } else {
+            resetButton = null;
         }
 
         return (
         <div className={classes.main}>
             <header className={classes.header}>Shit Game {counter}</header>
-            {img}
+            <div>
+                {img}
+                {helperCountDown}
+                {resetButton}
+            </div>
             <div className={classes.center}>
                 <div className={classes.text}>{this.state.text}</div>
                 <div className={classes.inputBox}>
@@ -347,6 +366,10 @@ class main extends Component {
                         onKeyDown={this.handleKeyDown}/>
                 </div>
             </div>
+            <footer>
+                <div>Based on the original "Don't Shit Your Pants". Made using ReactJs.</div>
+                <div>By<a href="https://linkedin.com/in/mile-ignjatovic-683188138">Mile Ignjatovic</a></div>
+            </footer>
         </div>
         )
     }
