@@ -72,6 +72,7 @@ class main extends Component {
             {answer: 'go to hall', response: 'You try to move, but you cant! Your gonna crap your pants!'}, 
             {answer: 'go to door', response: 'Oh shiiit!'}, 
             {answer: 'go to the door', response: 'The door is shut!'}, 
+            {answer: 'pee', response: 'You dont want to pee, you want to take a shit!'},
         ],
         failMessage: 'You shat your pants... You are such a looser...',
         successMessage: 'You didnt shit your pants!'
@@ -130,10 +131,10 @@ class main extends Component {
                         this.setState((previousState, props) => {return {counter: this.state.counter - 1}})
         
                         if (this.state.counter === Math.floor((Math.random() * 5) + 3)) {
-                            this.setState({text: 'OOOOHH shit, you are going to expload!!!'})
+                            this.setState({text: 'OOOOHH shit, you are going to explode!!!'})
                         }
                         if (this.state.counter === Math.floor((Math.random() * 10) + 8)) {
-                            this.setState({text: 'You feal the preasure rising!!!'})
+                            this.setState({text: 'You feel the preasure rising!!!'})
                         }
                         if (this.state.counter === Math.floor((Math.random() * 15) + 12)) {
                             this.setState({text: 'Hurry Up! You realy dont want to shit your pants'})
@@ -190,7 +191,7 @@ class main extends Component {
             }
             // if not start or scores and game has started save it to the BE for later examination
             if (input !== 'start' || input !== 'scores' && this.state.gameStarted) {
-                this.saveToBe();
+                this.saveToBe(input);
             }
 
             // start new game if input start and game not started already
@@ -273,28 +274,31 @@ class main extends Component {
                             this.setState({text: this.state.missAnswers[12].response});
                             break;
                         case this.state.missAnswers[13].answer: 
-                            this.setState({text: this.state.missAnswers[12].response});
+                            this.setState({text: this.state.missAnswers[13].response});
                             break;
                         case this.state.missAnswers[14].answer: 
-                            this.setState({text: this.state.missAnswers[12].response});
+                            this.setState({text: this.state.missAnswers[14].response});
                             break;
                         case this.state.missAnswers[15].answer: 
-                            this.setState({text: this.state.missAnswers[12].response});
+                            this.setState({text: this.state.missAnswers[15].response});
                             break;
                         case this.state.missAnswers[16].answer: 
-                            this.setState({text: this.state.missAnswers[12].response});
+                            this.setState({text: this.state.missAnswers[16].response});
                             break;
                         case this.state.missAnswers[17].answer: 
-                            this.setState({text: this.state.missAnswers[12].response});
+                            this.setState({text: this.state.missAnswers[17].response});
                             break;
                         case this.state.missAnswers[18].answer: 
-                            this.setState({text: this.state.missAnswers[12].response});
+                            this.setState({text: this.state.missAnswers[18].response});
                             break;
                         case this.state.missAnswers[19].answer: 
-                            this.setState({text: this.state.missAnswers[12].response});
+                            this.setState({text: this.state.missAnswers[19].response});
                             break;
                         case this.state.missAnswers[20].answer: 
-                            this.setState({text: this.state.missAnswers[12].response});
+                            this.setState({text: this.state.missAnswers[20].response});
+                            break;
+                        case this.state.missAnswers[21].answer: 
+                            this.setState({text: this.state.missAnswers[21].response});
                             break;
                         default: {
                             if (!this.firstStepPassed || !this.secondStepPassed) {

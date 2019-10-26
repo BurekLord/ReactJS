@@ -152,6 +152,9 @@ a {
 }
 
 @media (max-width: 501px) {
+    img {
+        width: 100%;
+    }
     .main {
         width: 100%;
         font-size: 1rem;
@@ -196,7 +199,7 @@ a {
     }
 
     img {
-        width: 75%;
+        width: 60%;
         display: flex;
         margin: auto;
     }
@@ -214,7 +217,7 @@ a {
         visibility: visible;
          right: 4rem;
         position: absolute;
-        bottom: 6rem;
+        top: 0;
   }
 
   .btn {
@@ -243,12 +246,12 @@ a {
 @media (max-height: 300px) {
 
     img {
-        width: 60%;
+        width: 50%;
     }
 
   .helperCountDown {
          right: 4rem;
-        bottom: 5rem;
+         top: 0;
   }
 
   .btn {
