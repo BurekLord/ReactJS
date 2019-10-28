@@ -10,6 +10,7 @@ class main extends Component {
 	}
 
 	state = {
+		map: null,
 		subject: new Subject(),
 		currentImg: '',
 		text: '',
@@ -45,7 +46,8 @@ class main extends Component {
 			'poop on floor',
 			'crap',
 			'crap on the floor',
-			'crap on floor'
+			'crap on floor',
+			'take a shit'
 		],
 		success: false,
 		missAnswers: [
@@ -71,14 +73,14 @@ class main extends Component {
 			},
 			{
 				answer: 'go to bathroom',
-				response: 'Yea... You realy want to go to the bathroom.'
+				response: 'Yea... You rely want to go to the bathroom.'
 			},
 			{
 				answer: 'go to the bathroom',
-				response: 'Yea... You realy want to go to the bathroom.'
+				response: 'Yea... You rely want to go to the bathroom.'
 			},
-			{ answer: 'go to toilet', response: 'You realy should...' },
-			{ answer: 'go to the toilet', response: 'You realy should...' },
+			{ answer: 'go to toilet', response: 'You rely should...' },
+			{ answer: 'go to the toilet', response: 'You rely should...' },
 			{
 				answer: 'sit down',
 				response: 'You are going to explode. You cant sit down.'
@@ -135,11 +137,137 @@ class main extends Component {
 			{
 				answer: 'pee',
 				response: 'You dont want to pee, you want to take a shit!'
+			},
+			{
+				answer: 'hold',
+				response: 'You Cant hold it! You are going to burst!'
+			},
+			{
+				answer: 'hold it',
+				response: 'You Cant hold it! You are going to burst!'
+			},
+			{
+				answer: 'go to wc',
+				response: 'Ok, but how!?'
+			},
+			{
+				answer: 'wc',
+				response: 'Ok, but how!?'
+			},
+			{
+				answer: 'dont shit your pants',
+				response: 'Iam not the one about tho shit my pants...'
+			},
+			{
+				answer: 'dont shit my pants',
+				response: 'Well, you rely dont want to...'
+			},
+			{
+				answer: 'pick lock',
+				response:
+					'You are just a bold, sad old man. You dont know how to pick a lock.'
+			},
+			{
+				answer: 'run',
+				response: 'There is nowhere to run!'
+			},
+			{
+				answer: 'go',
+				response: 'Go where?'
+			},
+			{
+				answer: 'walk',
+				response:
+					'You should go for a walk, but right now, you have to take a shit.'
+			},
+			{
+				answer: 'find key',
+				response: 'What key?'
+			},
+			{
+				answer: 'find the key',
+				response: 'What key?'
+			},
+			{
+				answer: 'get the key',
+				response: 'What key?'
+			},
+			{
+				answer: 'get key',
+				response: 'What key?'
+			},
+			{
+				answer: 'exit',
+				response: 'No... you cant leave. Firs you need to take a shit!'
+			},
+			{
+				answer: 'yes',
+				response: 'Yes, what?'
+			},
+			{
+				answer: 'sure',
+				response: 'Are you sure?'
+			},
+			{
+				answer: 'ok',
+				response: 'Is it rely ok to shit your pants?'
+			},
+			{
+				answer: 'dont',
+				response: 'Dont what??'
+			},
+			{
+				answer: 'kick door',
+				response:
+					'You try to lift your leg to kick the door, but the pressure of your shit is overwhelming!!'
+			},
+			{
+				answer: 'clean',
+				response: 'Its not the time for cleaning...'
+			},
+			{
+				answer: 'asd',
+				response: 'Try typing something that makes sense.'
+			},
+			{
+				answer: 'quit',
+				response: 'Hahaha, you cant quit.'
 			}
 		],
 		failMessage: 'You shat your pants... You are such a looser...',
 		successMessage: 'You didnt shit your pants!'
 	};
+
+	getAllAnswers = () => {
+		axios
+			.get('https://shit-game.firebaseio.com/userInput.json')
+			.then(response => {
+				const arr = [];
+				Object.keys(response.data).forEach(key => {
+					if (
+						(response.data[key]['answer'] &&
+							response.data[key]['answer'] !== '') ||
+						response.data[key]['answer'] !== undefined ||
+						response.data[key]['answer'] !== null
+					) {
+						arr.push(response.data[key]['answer']);
+					}
+				});
+
+				function onlyUnique(value, index, self) {
+					return self.indexOf(value) === index;
+				}
+
+				var unique = arr.filter(onlyUnique);
+
+				console.log(unique);
+			});
+	};
+
+	componentDidMount() {
+		window.map = this;
+	}
+
 	handleChange = event => {
 		this.setState({ input: event.target.value });
 	};
@@ -204,30 +332,15 @@ class main extends Component {
 								return { counter: this.state.counter - 1 };
 							});
 
-							if (
-								this.state.counter ===
-								Math.floor(Math.random() * 5 + 3)
-							) {
+							if (this.state.counter === 4) {
 								this.setState({
 									text:
 										'OOOOHH shit, you are going to explode!!!'
 								});
 							}
-							if (
-								this.state.counter ===
-								Math.floor(Math.random() * 10 + 8)
-							) {
+							if (this.state.counter === 24) {
 								this.setState({
 									text: 'You feel the preasure rising!!!'
-								});
-							}
-							if (
-								this.state.counter ===
-								Math.floor(Math.random() * 15 + 12)
-							) {
-								this.setState({
-									text:
-										'Hurry Up! You realy dont want to shit your pants'
 								});
 							}
 							if (this.state.counter === 0) {
@@ -475,6 +588,121 @@ class main extends Component {
 						case this.state.missAnswers[21].answer:
 							this.setState({
 								text: this.state.missAnswers[21].response
+							});
+							break;
+						case this.state.missAnswers[22].answer:
+							this.setState({
+								text: this.state.missAnswers[22].response
+							});
+							break;
+						case this.state.missAnswers[23].answer:
+							this.setState({
+								text: this.state.missAnswers[23].response
+							});
+							break;
+						case this.state.missAnswers[24].answer:
+							this.setState({
+								text: this.state.missAnswers[24].response
+							});
+							break;
+						case this.state.missAnswers[25].answer:
+							this.setState({
+								text: this.state.missAnswers[25].response
+							});
+							break;
+						case this.state.missAnswers[26].answer:
+							this.setState({
+								text: this.state.missAnswers[26].response
+							});
+							break;
+						case this.state.missAnswers[27].answer:
+							this.setState({
+								text: this.state.missAnswers[27].response
+							});
+							break;
+						case this.state.missAnswers[28].answer:
+							this.setState({
+								text: this.state.missAnswers[28].response
+							});
+							break;
+						case this.state.missAnswers[29].answer:
+							this.setState({
+								text: this.state.missAnswers[29].response
+							});
+							break;
+						case this.state.missAnswers[30].answer:
+							this.setState({
+								text: this.state.missAnswers[30].response
+							});
+							break;
+						case this.state.missAnswers[31].answer:
+							this.setState({
+								text: this.state.missAnswers[31].response
+							});
+							break;
+						case this.state.missAnswers[32].answer:
+							this.setState({
+								text: this.state.missAnswers[32].response
+							});
+							break;
+						case this.state.missAnswers[33].answer:
+							this.setState({
+								text: this.state.missAnswers[33].response
+							});
+							break;
+						case this.state.missAnswers[34].answer:
+							this.setState({
+								text: this.state.missAnswers[34].response
+							});
+							break;
+						case this.state.missAnswers[35].answer:
+							this.setState({
+								text: this.state.missAnswers[35].response
+							});
+							break;
+						case this.state.missAnswers[36].answer:
+							this.setState({
+								text: this.state.missAnswers[36].response
+							});
+							break;
+						case this.state.missAnswers[37].answer:
+							this.setState({
+								text: this.state.missAnswers[37].response
+							});
+							break;
+						case this.state.missAnswers[38].answer:
+							this.setState({
+								text: this.state.missAnswers[38].response
+							});
+							break;
+						case this.state.missAnswers[39].answer:
+							this.setState({
+								text: this.state.missAnswers[39].response
+							});
+							break;
+						case this.state.missAnswers[40].answer:
+							this.setState({
+								text: this.state.missAnswers[40].response
+							});
+							break;
+						case this.state.missAnswers[41].answer:
+							this.setState({
+								text: this.state.missAnswers[41].response
+							});
+							break;
+						case this.state.missAnswers[42].answer:
+							this.setState({
+								text: this.state.missAnswers[42].response
+							});
+							break;
+						case this.state.missAnswers[43].answer:
+							this.setState({
+								text: this.state.missAnswers[43].response
+							});
+							break;
+						case this.state.missAnswers[44].answer:
+							this.setState({
+								text: this.state.missAnswers[44].response
 							});
 							break;
 						default: {
