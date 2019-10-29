@@ -38,12 +38,6 @@ class main extends Component {
 		successImg: require('../../assets/images/5.jpg'),
 	};
 
-	// print all answers given ever
-	getAllAnswers = async () => {
-		let answers = await this.getAllAnswersFromBE();
-		console.log(answers);
-	};
-
 	// get the answers from be,it allready have them just return data
 	getAllAnswersFromBE = async () => {
 		if (!this.state.allAnswersEver) {
@@ -55,10 +49,37 @@ class main extends Component {
 		}
 	}
 
-	// print all unique answers
-	getAllUniqueAnswers= async () => {
+	// log all answers given ever
+	logAllAnswers = async () => {
+		let answers = await this.getAllAnswersFromBE();
+		console.log(answers);
+	};
+
+	// log all unique answers
+	logAllUniqueAnswers= async () => {
 		let answers = await this.getAllAnswersFromBE();
 		console.log(this.filterForUniqueAnswers(answers));
+	}
+
+	logNewAnswers = async () => {
+		let tempArray = [];
+		let missArrayOfAnswers = []; 
+		
+		this.state.missAnswers.forEach(miss => {
+			missArrayOfAnswers.push(miss.answer);
+		})
+
+		let answersFromBe = await this.getAllAnswersFromBE();
+
+		answersFromBe = this.filterForUniqueAnswers(answersFromBe)
+		answersFromBe.forEach(answer => {
+			if (missArrayOfAnswers.indexOf(answer) === -1 &&
+				this.state.possibleFirstAnswers.indexOf(answer) === -1 &&
+				this.state.possibleEndAnswers.indexOf(answer) === -1) {
+				tempArray.push(answer)
+			}
+		})
+		console.log(tempArray)
 	}
 
 	// filter answers for uniques

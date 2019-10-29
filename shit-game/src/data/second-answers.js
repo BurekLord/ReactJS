@@ -9,7 +9,9 @@ const secondAnswers = [
     'crap',
     'crap on the floor',
     'crap on floor',
-    'take a shit'
+    'take a shit',
+    'take shit',
+    'shit pants',
 ]
 
 export default secondAnswers;

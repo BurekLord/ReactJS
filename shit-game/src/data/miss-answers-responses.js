@@ -15,9 +15,24 @@ const missAnswersResponses = [
             'You try to open the door, but its sealed shut! You are gonna shit your pants!'
     },
     {
+        answer: 'door',
+        response:
+            'Yes, door is a four letter word and it starts with `D`...'
+    },
+    {
+        answer: 'pants',
+        response:
+            'Plants'
+    },
+    {
         answer: 'open the door',
         response:
             'You try to open the door, but its sealed shut! You are gonna shit your pants!'
+    },
+    {
+        answer: 'open',
+        response:
+            'Open your mind to new things... later... now you need to take a dump!'
     },
     {
         answer: 'go to bathroom',
@@ -32,6 +47,10 @@ const missAnswersResponses = [
     {
         answer: 'sit down',
         response: 'You are going to explode. You cant sit down.'
+    },
+    {
+        answer: 'toilet',
+        response: 'Yes, you could use a toilet right now...'
     },
     {
         answer: 'sit',
@@ -104,16 +123,33 @@ const missAnswersResponses = [
     },
     {
         answer: 'dont shit your pants',
-        response: 'Iam not the one about tho shit my pants...'
+        response: 'Well, Iam not the one about tho shit my pants...'
+    },
+    {
+        answer: 'don`t shit your pants',
+        response: 'I am not the one about tho shit my pants...'
     },
     {
         answer: 'dont shit my pants',
         response: 'Well, you rely dont want to...'
     },
     {
+        answer: 'don\'t shit my pants',
+        response: 'Well, you rely dont want to...'
+    },
+    {
+        answer: 'don\'t shit your pants',
+        response: 'Well, I am not the one about tho shit my pants...'
+    },
+    {
         answer: 'pick lock',
         response:
             'You are just a bold, sad old man. You dont know how to pick a lock.'
+    },
+    {
+        answer: 'i will die',
+        response:
+            'You will die of shame if you shit your pants.'
     },
     {
         answer: 'run',
@@ -165,6 +201,10 @@ const missAnswersResponses = [
         response: 'Dont what??'
     },
     {
+        answer: 'don`t',
+        response: 'Dont what??'
+    },
+    {
         answer: 'kick door',
         response:
             'You try to lift your leg to kick the door, but the pressure of your shit is overwhelming!!'
@@ -186,8 +226,48 @@ const missAnswersResponses = [
         response: 'What do you mean what?.'
     },
     {
+        answer: 'enter',
+        response: 'Nobody is at the door. Are you talking to yourself?.'
+    },
+    {
         answer: 'no',
         response: 'What do you mean no? You dont want to shit your pants?.'
+    },
+    {
+        answer: 'i don`t want to take a shit',
+        response: 'Ummm... yes you do.'
+    },
+    {
+        answer: 'i don\'t want to take a shit',
+        response: 'Ummm... yes you do.'
+    },
+    {
+        answer: 'pusi kurac',
+        response: 'Jedi govna.'
+    },
+    {
+        answer: 'hurry',
+        response: 'Hurry where?'
+    },
+    {
+        answer: 'i dont want to take a shit',
+        response: 'Ummm... yes you do.'
+    },
+    {
+        answer: 'go right',
+        response: 'You are right... to think that you can go right, but you cant.'
+    },
+    {
+        answer: 'go left',
+        response: 'There is nothing left... for you in this world, but a giant shit.'
+    },
+    {
+        answer: 'go strait',
+        response: 'Where is strait? Right or left?'
+    },
+    {
+        answer: 'toilet paper',
+        response: 'You should find some after you take a shit.'
     }
 ];
 
