@@ -18,7 +18,7 @@ class main extends Component {
 		currentImg: '',
 		text: '',
 		input: '',
-		counter: 31,
+		counter: 45,
 		interval: undefined,
 		gameStarted: false,
 		firstStepPassed: false,
@@ -172,7 +172,7 @@ class main extends Component {
 		this.setState({ text: 'You want to take a shit.' });
 		this.setState({ gameStarted: true }, () => {
 			if (!this.state.interval) {
-				this.setState({ counter: 31 }, () => {
+				this.setState({ counter: 45 }, () => {
 					this.startIntervalCountdown();
 				});
 			}
@@ -188,14 +188,14 @@ class main extends Component {
 				});
 
 				// random message
-				if (this.state.counter === 4) {
+				if (this.state.counter === 10) {
 					this.setState({
 						text:
 							'OOOOHH shit, you are going to explode!!!'
 					});
 				}
 				// random message
-				if (this.state.counter === 21) {
+				if (this.state.counter === 26) {
 					this.setState({
 						text: 'You feel the preasure rising!!!'
 					});
