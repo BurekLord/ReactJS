@@ -354,7 +354,9 @@ class main extends Component {
 				</div>
 			</div>
 		);
+
 		let counter = null;
+
 		if (this.state.gameStarted) {
 			img = (
 				<img
