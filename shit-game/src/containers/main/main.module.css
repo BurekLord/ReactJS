@@ -91,10 +91,6 @@ input:focus {
 .svg {
 	background-color: white;
 	width: 1.2rem;
-	/* animation: blink 2s;
-    -webkit-animation: blink 2s;
-    -moz-animation: blink 2s; */
-
 	visibility: visible;
 	animation: blink 1s steps(5, start) infinite;
 	-webkit-animation: blink 1s steps(5, start) infinite;
