@@ -1,17 +1,21 @@
 const secondAnswers = [
+    'shit',
     'shit on the floor',
     'shit on floor',
-    'shit',
     'shit on the wall',
-    'poop on the floor',
+    'shit pants',
+    'take a shit',
     'poop',
+    'poop on the floor',
     'poop on floor',
     'crap',
-    'crap on the floor',
+    'take crap',
+    'take a crap',
     'crap on floor',
-    'take a shit',
+    'crap on the floor',
     'take shit',
-    'shit pants',
+    'take a dump',
+    'dump',
 ]
 
 export default secondAnswers;

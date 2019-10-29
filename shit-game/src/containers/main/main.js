@@ -42,23 +42,27 @@ class main extends Component {
 	getAllAnswersFromBE = async () => {
 		if (!this.state.allAnswersEver) {
 			let response = await axios.get('https://shit-game.firebaseio.com/userInput.json');
-			this.setState({allAnswersEver: response.data})
-			return response.data;
-		} else {
-			return this.state.allAnswersEver;
-		}
+			if (response) {
+				this.setState({allAnswersEver: response.data})
+				return response.data;
+				} else {
+					return null;
+				}
+			} else {
+				return this.state.allAnswersEver;
+			}
 	}
 
 	// log all answers given ever
 	logAllAnswers = async () => {
 		let answers = await this.getAllAnswersFromBE();
-		console.log(answers);
+		console.log(answers ? answers : 'there is no data in db');
 	};
 
 	// log all unique answers
 	logAllUniqueAnswers= async () => {
 		let answers = await this.getAllAnswersFromBE();
-		console.log(this.filterForUniqueAnswers(answers));
+		console.log(answers ? this.filterForUniqueAnswers(answers) : 'there is no data in db');
 	}
 
 	logNewAnswers = async () => {
@@ -71,31 +75,50 @@ class main extends Component {
 
 		let answersFromBe = await this.getAllAnswersFromBE();
 
-		answersFromBe = this.filterForUniqueAnswers(answersFromBe)
-		answersFromBe.forEach(answer => {
-			if (missArrayOfAnswers.indexOf(answer) === -1 &&
-				this.state.possibleFirstAnswers.indexOf(answer) === -1 &&
-				this.state.possibleEndAnswers.indexOf(answer) === -1) {
-				tempArray.push(answer)
-			}
-		})
-		console.log(tempArray)
+		if (answersFromBe) {
+			answersFromBe = this.filterForUniqueAnswers(answersFromBe)
+			answersFromBe.forEach(answer => {
+				if (missArrayOfAnswers.indexOf(answer) === -1 &&
+					this.state.possibleFirstAnswers.indexOf(answer) === -1 &&
+					this.state.possibleEndAnswers.indexOf(answer) === -1) {
+					tempArray.push(answer)
+				}
+			})
+			console.log(tempArray)
+		} else {
+			console.log('no data in db')
+		}
 	}
 
 	// filter answers for uniques
 	filterForUniqueAnswers = (data) => {
-		const tempArray = [];
-		Object.keys(data).forEach(key => {
-			if (
-				(data[key]['answer'] &&
-					data[key]['answer'] !== '' && data[key]['answer'] !== ' ')
-			) {
-				tempArray.push(data[key]['answer']);
-			}
-		});
-		const uniqueAnswersArray = tempArray.filter((value, index, self) => self.indexOf(value) === index);
-		return uniqueAnswersArray
+		if (data) {
+			const tempArray = [];
+			Object.keys(data).forEach(key => {
+				if (
+					(data[key]['answer'] &&
+						data[key]['answer'] !== '' && data[key]['answer'] !== ' ')
+				) {
+					tempArray.push(data[key]['answer']);
+				}
+			});
+			const uniqueAnswersArray = tempArray.filter((value, index, self) => self.indexOf(value) === index);
+			return uniqueAnswersArray
+		}
 	}
+
+	clearDatabase = async () => {
+		await axios.delete('https://shit-game.firebaseio.com/userInput.json');
+	}
+
+	// saves the answer to BE
+	saveToBe = input => {
+		axios
+			.post('https://shit-game.firebaseio.com/userInput.json', {
+				answer: input
+			})
+			.then(() => {});
+	};
 
 	// react lifecycle hook (after page initialised)
 	componentDidMount() {
@@ -142,15 +165,6 @@ class main extends Component {
 		// fail state true
 		this.setState({ success: false });
 		this.setState({ fail: true });
-	};
-
-	// saves the answer to BE
-	saveToBe = input => {
-		axios
-			.post('https://shit-game.firebaseio.com/userInput.json', {
-				answer: input
-			})
-			.then(() => {});
 	};
 
 	startNewGame = () => {
