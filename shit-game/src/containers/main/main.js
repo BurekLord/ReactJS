@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import classes from './main.module.css';
 import axios from 'axios';
-import { Subject } from 'rxjs';
 import firstAnswers from '../../data/first-answers';
 import secondAnswers from '../../data/second-answers';
 import missAnswersResponses from '../../data/miss-answers-responses';
