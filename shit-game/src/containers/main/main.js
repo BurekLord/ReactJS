@@ -332,7 +332,6 @@ class main extends Component {
 	};
 
 	render() {
-		let counter;
 		let img = (
 			<div className={classes.content}>
 				<h1>Don't Shit Your Pants !!!</h1>
@@ -355,6 +354,7 @@ class main extends Component {
 				</div>
 			</div>
 		);
+		let counter = null;
 		if (this.state.gameStarted) {
 			img = (
 				<img
