@@ -272,7 +272,7 @@ class main extends Component {
 			// if game has started save answer to BE for later examination
 			if (
 				input !== 'start' ||
-				(input !== 'scores' && this.state.gameStarted)
+				this.state.gameStarted
 			) {
 				this.saveToBe(input);
 			}
@@ -280,11 +280,6 @@ class main extends Component {
 			// start new game if input start and game not started already
 			if (input === 'start' && !this.state.gameStarted) {
 				this.startNewGame();
-			}
-
-			// get scores in input is scores and game is not started
-			if (input === 'scores' && !this.state.gameStarted) {
-				this.setState({ text: 'Feature Still in development...' });
 			}
 
 			// if game is started check input
@@ -342,13 +337,6 @@ class main extends Component {
 					To start a{' '}
 					<span className={classes.colorPurple}>new game</span>, type{' '}
 					<span className={classes.colorGreen}>start</span> in the
-					console and press{' '}
-					<span className={classes.colorGold}>'Enter'</span>
-				</div>
-				<div>
-					To see the{' '}
-					<span className={classes.colorPurple}>scores</span>, type{' '}
-					<span className={classes.colorGreen}>scores</span> in the
 					console and press{' '}
 					<span className={classes.colorGold}>'Enter'</span>
 				</div>
