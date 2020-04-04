@@ -1,9 +1,12 @@
-import React, { Component } from 'react';
-import classes from './main.module.css';
 import axios from 'axios';
+import React, { Component } from 'react';
 import firstAnswers from '../../data/first-answers';
-import secondAnswers from '../../data/second-answers';
 import missAnswersResponses from '../../data/miss-answers-responses';
+import secondAnswers from '../../data/second-answers';
+import Counter from '../Counter/Counter';
+import Greeting from '../Greeting/Greeting';
+import ImageContainer from '../ImageContainer/ImageContainer';
+import classes from './main.module.css';
 
 class main extends Component {
 	constructor() {
@@ -43,14 +46,14 @@ class main extends Component {
 		if (!this.state.allAnswersEver) {
 			let response = await axios.get('https://shit-game.firebaseio.com/userInput.json');
 			if (response) {
-				this.setState({allAnswersEver: response.data})
+				this.setState({ allAnswersEver: response.data })
 				return response.data;
-				} else {
-					return null;
-				}
 			} else {
-				return this.state.allAnswersEver;
+				return null;
 			}
+		} else {
+			return this.state.allAnswersEver;
+		}
 	}
 
 	// log all answers given ever
@@ -60,15 +63,15 @@ class main extends Component {
 	};
 
 	// log all unique answers
-	logAllUniqueAnswers= async () => {
+	logAllUniqueAnswers = async () => {
 		let answers = await this.getAllAnswersFromBE();
 		console.log(answers ? this.filterForUniqueAnswers(answers) : 'there is no data in db');
 	}
 
 	logNewAnswers = async () => {
 		let tempArray = [];
-		let missArrayOfAnswers = []; 
-		
+		let missArrayOfAnswers = [];
+
 		this.state.missAnswers.forEach(miss => {
 			missArrayOfAnswers.push(miss.answer);
 		})
@@ -96,10 +99,10 @@ class main extends Component {
 			const tempArray = [];
 			Object.keys(data).forEach(key => {
 				if (
-					(data[key]['answer'] &&
-						data[key]['answer'] !== '' && data[key]['answer'] !== ' ')
+					(data[ key ][ 'answer' ] &&
+						data[ key ][ 'answer' ] !== '' && data[ key ][ 'answer' ] !== ' ')
 				) {
-					tempArray.push(data[key]['answer']);
+					tempArray.push(data[ key ][ 'answer' ]);
 				}
 			});
 			const uniqueAnswersArray = tempArray.filter((value, index, self) => self.indexOf(value) === index);
@@ -117,7 +120,7 @@ class main extends Component {
 			.post('https://shit-game.firebaseio.com/userInput.json', {
 				answer: input
 			})
-			.then(() => {});
+			.then(() => { });
 	};
 
 	// react lifecycle hook (after page initialised)
@@ -268,7 +271,7 @@ class main extends Component {
 			{
 				secondStepPassed:
 					this.state.possibleEndAnswers.indexOf(input) !==
-					-1
+						-1
 						? true
 						: false
 			},
@@ -331,7 +334,7 @@ class main extends Component {
 					let answerExists = false;
 					// check for possible miss responses
 					this.state.missAnswers.forEach(missAnswer => {
-						if(input === missAnswer.answer) {
+						if (input === missAnswer.answer) {
 							this.setState({
 								text: missAnswer.response
 							});
@@ -362,61 +365,25 @@ class main extends Component {
 	};
 
 	render() {
-		let img = (
-			<div className={classes.content}>
-				<h1>Don't Shit Your Pants !!!</h1>
-				<div>
-					In this game the goal is for you not to shit your pants...
-				</div>
-				<div>
-					To start a{' '}
-					<span className={classes.colorPurple}>new game</span>, type{' '}
-					<span className={classes.colorGreen}>start</span> in the
-					console and press{' '}
-					<span className={classes.colorGold}>'Enter'</span>
-				</div>
-			</div>
-		);
 
+		let img = <Greeting />;
 		let counter = null;
-
+		let helperCountDown = null;
 		if (this.state.gameStarted) {
 			img = (
-				<img
-					className={[classes.content, classes.image]}
-					src={this.state.currentImg}
-					alt='game progress depiction'
-				/>
+				<ImageContainer currentImg={this.state.currentImg}></ImageContainer>
 			);
-			counter = (
-				<div>
-					00 : {this.state.counter < 10 ? '0' : ''}
-					{this.state.counter}
-				</div>
-			);
+			counter = <Counter counter={this.state.counter} />
+			helperCountDown = <Counter helper counter={this.state.counter} />
 		}
 
-		let helperCountDown;
-		if (this.state.gameStarted) {
-			helperCountDown = (
-				<div className={classes.helperCountDown}>
-					00 : {this.state.counter < 10 ? '0' : ''}
-					{this.state.counter}
-				</div>
-			);
-		} else {
-			helperCountDown = null;
-		}
-
-		let resetButton;
+		let resetButton = null;
 		if (this.state.success || this.state.fail) {
 			resetButton = (
 				<button className={classes.btn} onClick={this.resetGame}>
 					<span>...Reset game</span>
 				</button>
 			);
-		} else {
-			resetButton = null;
 		}
 
 		let mainClasses = `${classes.main}`;
@@ -446,6 +413,7 @@ class main extends Component {
 							<img
 								className={classes.svg}
 								src={require('../../assets/images/chevron-right-solid.svg')}
+								alt="command line"
 							/>
 						</span>
 						<input

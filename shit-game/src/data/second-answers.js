@@ -16,6 +16,26 @@ const secondAnswers = [
     'take shit',
     'take a dump',
     'dump',
+    'i want to shit in my pants',
+    'shit in my pants',
+    'shit my pants',
+    'then shit your pants',
+    'shit your pants',
+    'let me take a shit',
+    'shit your pants',
+    'give up',
+    'yes i want to take a shit',
+    'shit the pants',
+    'explode',
+    'lie down on the floor',
+    'do something',
+    'shit in corrner',
+    'shit on door',
+    'shit on the door',
+    'go shit',
+    'reset',
+    'i want to take a shit',
+    'fail'
 ]
 
 export default secondAnswers;

@@ -32,18 +32,6 @@ span {
 	font-style: italic;
 }
 
-.colorPurple {
-	color: purple;
-}
-
-.colorGreen {
-	color: greenyellow;
-}
-
-.colorGold {
-	color: gold;
-}
-
 .header {
 	margin: 1rem;
 }
@@ -107,10 +95,6 @@ footer {
 
 footer div {
 	margin-bottom: 2rem;
-}
-
-.helperCountDown {
-	visibility: hidden;
 }
 
 img {
@@ -254,13 +238,6 @@ a {
 	input {
 		font-size: 2rem;
 	}
-	.helperCountDown {
-		visibility: visible;
-		right: 4rem;
-		position: absolute;
-		top: 0;
-	}
-
 	.btn {
 		position: absolute;
 		top: 0;
@@ -287,15 +264,10 @@ a {
 	img {
 		width: 50%;
 	}
-
-	.helperCountDown {
-		right: 4rem;
-		top: 0;
-	}
-
 	.btn {
 		right: 4rem;
 		bottom: 5rem;
 		padding: 0.4rem;
 	}
 }
+

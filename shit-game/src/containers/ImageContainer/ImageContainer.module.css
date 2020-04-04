@@ -1,0 +1,32 @@
+.content {
+	width: 90%;
+	display: flex;
+	margin: auto;
+	flex-direction: column;
+}
+
+img {
+	width: 100%;
+}
+
+
+@media (max-width: 501px) {
+	img {
+		width: 100%;
+    }
+}
+
+
+@media (max-height: 400px) {
+	img {
+		width: 60%;
+		display: flex;
+		margin: auto;
+    }
+}
+
+@media (max-height: 300px) {
+	img {
+		width: 50%;
+    }
+}

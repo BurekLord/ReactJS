@@ -1,0 +1,19 @@
+.helperCountDown {
+	visibility: hidden;
+}
+
+@media (max-height: 400px) {
+   .helperCountDown {
+		visibility: visible;
+		right: 4rem;
+		position: absolute;
+		top: 0;
+    }
+}
+
+@media (max-height: 300px) {
+	.helperCountDown {
+		right: 4rem;
+		top: 0;
+    }
+}
