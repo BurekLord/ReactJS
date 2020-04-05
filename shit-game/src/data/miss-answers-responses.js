@@ -585,6 +585,14 @@ const missAnswersResponses = [
         answer: 'close the door',
         response: 'But the door is already closed... What are you talking about?'
     },
+    {
+        answer: 'go near door',
+        response: 'You try to move, but the preasure is unbearable!'
+    },
+    {
+        answer: 'go near the door',
+        response: 'You try to move, but the preasure is unbearable!'
+    },
 
 ];
 
