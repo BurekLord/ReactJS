@@ -9,6 +9,8 @@
 	letter-spacing: 0.5rem;
 	display: flex;
 	flex-direction: column;
+	overflow: scroll;
+
 }
 .content {
 	width: 90%;
@@ -111,6 +113,12 @@ img {
 	width: 100%;
 	padding: 1rem;
 	font-family: ARCADECLASSIC;
+}
+
+.backImg {
+	filter: invert(100%) sepia(10%);
+	width: 2rem;
+	position: absolute;
 }
 
 @keyframes blink {

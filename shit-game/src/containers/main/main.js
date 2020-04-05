@@ -363,16 +363,20 @@ class main extends Component {
 		}
 	};
 
+	startGameHandeler = () => {
+		this.startNewGame();
+	}
+
 	focusInput = () => {
 		this.inputRef.current.focus();
 	};
 
 	render() {
-
-		let img = <Greeting />;
+		let img = <Greeting startGame={this.startGameHandeler} />;
 		let counter = null;
 		let helperCountDown = null;
 		let footer = <Footer />;
+		let backBtn = null;
 		if (this.state.gameStarted) {
 			img = (
 				<ImageContainer currentImg={this.state.currentImg}></ImageContainer>
@@ -380,6 +384,7 @@ class main extends Component {
 			counter = <Counter counter={this.state.counter} />
 			helperCountDown = <Counter helper counter={this.state.counter} />
 			footer = null;
+			backBtn = <img onClick={this.resetGame} className={classes.backImg} src={require('../../assets/images/back.png')} alt="back button"></img>;
 		}
 
 		let resetButton = this.state.success || this.state.fail ? (<button className={classes.btn} onClick={this.resetGame}>
@@ -397,8 +402,9 @@ class main extends Component {
 
 		return (
 			<div className={mainClasses} style={{ position: 'relative' }}>
+				{backBtn}
 				<AudioPlayer start={this.state.gameStarted} ></AudioPlayer>
-				<header className={classes.header}>Shit Game {counter}</header>
+				<header className={classes.header}>&nbsp;{counter}</header>
 				<div>
 					<audio
 						ref={this.soundRef}

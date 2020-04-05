@@ -25,10 +25,20 @@ span {
 
 .colorPurple {
 	color: purple;
+	background-color: #555;
+    border: 2px solid;
+    cursor: pointer;
+    border-radius: 10px;
+
 }
 
 .colorGreen {
 	color: greenyellow;
+	background-color: #555;
+    border: 2px solid;
+    cursor: pointer;
+    border-radius: 10px;
+
 }
 
 .colorGold {

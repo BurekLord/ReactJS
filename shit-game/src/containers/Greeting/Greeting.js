@@ -12,8 +12,8 @@ const Greeting = (props) => {
             </div>
             <div className={classes.marginTop}>
                 To start a{' '}
-                <span className={classes.colorPurple}>new game</span>, type{' '}
-                <span className={classes.colorGreen}>start</span> in the
+                <span onClick={props.startGame} className={classes.colorPurple}>new game</span>, press{' '}
+                <span onClick={props.startGame} className={classes.colorGreen}>START</span> or type "start" in the
 					console and press{' '}
                 <span className={classes.colorGold}>'Enter'</span>
             </div>
