@@ -372,12 +372,14 @@ class main extends Component {
 		let img = <Greeting />;
 		let counter = null;
 		let helperCountDown = null;
+		let footer = <Footer />;
 		if (this.state.gameStarted) {
 			img = (
 				<ImageContainer currentImg={this.state.currentImg}></ImageContainer>
 			);
 			counter = <Counter counter={this.state.counter} />
 			helperCountDown = <Counter helper counter={this.state.counter} />
+			footer = null;
 		}
 
 		let resetButton = this.state.success || this.state.fail ? (<button className={classes.btn} onClick={this.resetGame}>
@@ -431,7 +433,7 @@ class main extends Component {
 						/>
 					</div>
 				</div>
-				<Footer />
+				{footer}
 			</div>
 		);
 	}
