@@ -131,6 +131,7 @@ class main extends Component {
 	componentDidMount() {
 		// add this component as a global variable so that we are able to acces helper functions from the console
 		window.map = this;
+		this.focusInput();
 	}
 
 	// on input change
