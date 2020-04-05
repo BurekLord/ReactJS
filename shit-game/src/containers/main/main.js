@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import firstAnswers from '../../data/first-answers';
 import missAnswersResponses from '../../data/miss-answers-responses';
 import secondAnswers from '../../data/second-answers';
+import AudioPlayer from '../AudioPlayer/AudioPlayer';
 import Counter from '../Counter/Counter';
+import Footer from '../Footer/Footer';
 import Greeting from '../Greeting/Greeting';
 import ImageContainer from '../ImageContainer/ImageContainer';
 import classes from './main.module.css';
@@ -197,12 +199,6 @@ class main extends Component {
 							'OOOOHH shit, you are going to explode!!!'
 					});
 				}
-				// random message
-				if (this.state.counter === 26) {
-					this.setState({
-						text: 'You feel the preasure rising!!!'
-					});
-				}
 
 				if (this.state.counter === 0) {
 					if (this.state.firstStepPassed) {
@@ -377,14 +373,9 @@ class main extends Component {
 			helperCountDown = <Counter helper counter={this.state.counter} />
 		}
 
-		let resetButton = null;
-		if (this.state.success || this.state.fail) {
-			resetButton = (
-				<button className={classes.btn} onClick={this.resetGame}>
-					<span>...Reset game</span>
-				</button>
-			);
-		}
+		let resetButton = this.state.success || this.state.fail ? (<button className={classes.btn} onClick={this.resetGame}>
+			<span>...Reset game</span>
+		</button>) : null;
 
 		let mainClasses = `${classes.main}`;
 		if (this.state.success) {
@@ -398,7 +389,8 @@ class main extends Component {
 		return (
 			<div className={mainClasses}>
 				<header className={classes.header}>Shit Game {counter}</header>
-				<div>
+				<div style={{ position: 'relative' }}>
+					<AudioPlayer start={this.state.gameStarted}></AudioPlayer>
 					{img}
 					{helperCountDown}
 					{resetButton}
@@ -426,18 +418,7 @@ class main extends Component {
 						/>
 					</div>
 				</div>
-				<footer>
-					<div>
-						Based on the original "Don't Shit Your Pants". Made
-						using ReactJs.
-					</div>
-					<div>
-						By
-						<a href='https://linkedin.com/in/mile-ignjatovic-683188138'>
-							Mile Ignjatovic
-						</a>
-					</div>
-				</footer>
+				<Footer />
 			</div>
 		);
 	}

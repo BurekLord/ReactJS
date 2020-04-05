@@ -1,0 +1,43 @@
+footer {
+	font-size: 1rem;
+	margin: auto;
+	display: flex;
+	width: 90%;
+	flex-direction: column;
+}
+
+footer div {
+	margin-bottom: 2rem;
+}
+footer div span {
+	display: block;
+	margin-bottom: .5rem;
+	font-size: 1rem;
+}
+
+.hidden {
+	display: inline-block;
+}
+
+@media (max-width: 501px) {
+	footer {
+		font-size: 0.7rem;
+		margin: 0 1rem;
+		display: flex;
+		flex-direction: column;
+	}
+
+	footer div {
+		margin-bottom: 1rem;
+	}
+
+	footer div span {
+		font-size: .7rem;
+	}
+}
+
+@media (max-height: 520px) {
+    .hidden {
+		display: none;
+	}
+}

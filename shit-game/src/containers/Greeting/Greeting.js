@@ -4,7 +4,7 @@ import classes from './Greeting.module.css';
 const Greeting = (props) => {
     return (
         <div className={classes.content}>
-            <div class={classes.hidden}>
+            <div className={classes.hidden}>
                 <h1>Don't Shit Your Pants !!!</h1>
                 <div>
                     In this game the goal is for you not to shit your pants...

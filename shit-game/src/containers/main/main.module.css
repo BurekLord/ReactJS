@@ -85,18 +85,6 @@ input:focus {
 	-moz-animation: blink 1s steps(5, start) infinite;
 }
 
-footer {
-	font-size: 1rem;
-	margin: auto;
-	display: flex;
-	width: 90%;
-	flex-direction: column;
-}
-
-footer div {
-	margin-bottom: 2rem;
-}
-
 img {
 	width: 100%;
 }
@@ -204,16 +192,6 @@ a {
 
 	.svg {
 		width: 0.8rem;
-	}
-	footer {
-		font-size: 0.7rem;
-		margin: 0 1rem;
-		display: flex;
-		flex-direction: column;
-	}
-
-	footer div {
-		margin-bottom: 1rem;
 	}
 }
 
