@@ -164,9 +164,6 @@ a {
 }
 
 @media (max-width: 501px) {
-	img {
-		width: 100%;
-	}
 	.main {
 		width: 100%;
 		font-size: 1rem;
@@ -198,12 +195,6 @@ a {
 @media (max-height: 400px) {
 	header {
 		display: none;
-	}
-
-	img {
-		width: 60%;
-		display: flex;
-		margin: auto;
 	}
 
 	.main,
@@ -239,9 +230,6 @@ a {
 }
 
 @media (max-height: 300px) {
-	img {
-		width: 50%;
-	}
 	.btn {
 		right: 4rem;
 		bottom: 5rem;

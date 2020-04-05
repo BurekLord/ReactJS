@@ -22,11 +22,13 @@ img {
 		width: 60%;
 		display: flex;
 		margin: auto;
+		margin-top: 1rem;
     }
 }
 
 @media (max-height: 300px) {
 	img {
+		margin-top: 1rem;
 		width: 50%;
     }
 }

@@ -1,0 +1,12 @@
+.audioControl {
+    position: absolute;
+    width: 2rem;
+    right: 0;
+}
+
+@media (max-height: 400px) {
+   .audioControl {
+    top: -12px;
+    right: -43px;
+   }
+}

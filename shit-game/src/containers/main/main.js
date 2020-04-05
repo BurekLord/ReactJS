@@ -15,6 +15,8 @@ class main extends Component {
 		super();
 		// input ref so that we can target input field
 		this.inputRef = React.createRef();
+
+		this.soundRef = React.createRef();
 	}
 
 	// app state
@@ -155,6 +157,9 @@ class main extends Component {
 		// success state true
 		this.setState({ success: true });
 		this.setState({ fail: false });
+		this.soundRef.current.src = require('../../assets/music/Children Yay   Sound Effect.mp3');
+		this.soundRef.current.currentTime = 1;
+		this.soundRef.current.play();
 	};
 
 	// finish game by failing
@@ -170,6 +175,8 @@ class main extends Component {
 		// fail state true
 		this.setState({ success: false });
 		this.setState({ fail: true });
+		this.soundRef.current.src = require('../../assets/music/Aww Sound Effect.mp3');
+		this.soundRef.current.play();
 	};
 
 	startNewGame = () => {
@@ -387,10 +394,16 @@ class main extends Component {
 		}
 
 		return (
-			<div className={mainClasses}>
+			<div className={mainClasses} style={{ position: 'relative' }}>
+				<AudioPlayer start={this.state.gameStarted} ></AudioPlayer>
 				<header className={classes.header}>Shit Game {counter}</header>
-				<div style={{ position: 'relative' }}>
-					<AudioPlayer start={this.state.gameStarted}></AudioPlayer>
+				<div>
+					<audio
+						ref={this.soundRef}
+						src="">
+						Your browser does not support the
+            			<code>audio</code> element.
+        			</audio>
 					{img}
 					{helperCountDown}
 					{resetButton}
