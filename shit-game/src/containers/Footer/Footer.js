@@ -15,7 +15,7 @@ const Footer = (props) => {
             </div>
             <div>
                 By
-						<a href='https://linkedin.com/in/mile-ignjatovic-683188138'>
+						<a href='https://linkedin.com/in/mile-ignjatovic-683188138' target="_blank" rel="noopener noreferrer">
                     Mile Ignjatovic
 						</a>
             </div>
